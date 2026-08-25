@@ -22,7 +22,12 @@ The integration creates one device for each configured Bitcoin address and refre
 
 1. In Home Assistant, open **HACS** → **Integrations**.
 2. Open the three-dot menu → **Custom repositories**.
-3. Add this repository URL and select **Integration** as the category.
+3. Add the following repository URL and select **Integration** as the category:
+
+   ```text
+   https://github.com/ExHell28/parasite-home-assistant
+   ```
+
 4. Find **Parasite Pool** in HACS and choose **Download**.
 5. Restart Home Assistant.
 
