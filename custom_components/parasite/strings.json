@@ -1,0 +1,20 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect Parasite Pool",
+        "description": "Enter the Bitcoin address used for your Parasite Pool miners.",
+        "data": {
+          "bitcoin_address": "Bitcoin address"
+        }
+      }
+    },
+    "error": {
+      "invalid_address": "Enter a valid mainnet Bitcoin address."
+    },
+    "abort": {
+      "already_configured": "This Bitcoin address is already configured."
+    }
+  }
+}
+
