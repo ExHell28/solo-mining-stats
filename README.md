@@ -1,38 +1,67 @@
 # Parasite Pool for Home Assistant
 
-HACS-compatible custom integration for the public [Parasite Pool](https://parasite.space/) API. It polls every 30 seconds and creates one device per configured Bitcoin address.
+A HACS-compatible custom integration for monitoring public [Parasite Pool](https://parasite.space/) mining and pool statistics in Home Assistant.
 
-## Sensors
+The integration creates one device for each configured Bitcoin address and refreshes its data every 30 seconds.
 
-- Personal hashrate (TH/s)
+## Features
+
+- Personal hashrate in TH/s
 - Personal best difficulty
-- Total work (`account.total_diff`)
-- Worker count
-- Uptime (duration)
-- Leaderboard rank (top 100 combined leaderboard only)
-- Pool hashrate (PH/s)
+- Total contributed work
+- Active worker count
+- Uptime
+- Combined leaderboard rank (when present in the public top 100)
+- Pool hashrate in PH/s
 - Pool best difficulty
+- Friendly compact formatting for large difficulty and work values
 
-Private, new, or unranked addresses may not have personal data exposed by the public API. In that case the personal sensors remain unavailable while the pool sensors continue to update.
+## Installation
 
-## Install with HACS
+### HACS
 
-1. Extract this repository ZIP, then make the extracted folder available from a GitHub repository (or use HACS's local/custom repository workflow).
-2. In HACS, open **Integrations** → the three-dot menu → **Custom repositories**.
-3. Add the repository URL and select **Integration** as its category.
-4. Find **Parasite Pool**, install it, and restart Home Assistant.
-5. Open **Settings** → **Devices & services** → **Add integration** → **Parasite Pool**, then enter your Bitcoin address.
+1. In Home Assistant, open **HACS** → **Integrations**.
+2. Open the three-dot menu → **Custom repositories**.
+3. Add this repository URL and select **Integration** as the category.
+4. Find **Parasite Pool** in HACS and choose **Download**.
+5. Restart Home Assistant.
 
-For a manual installation, copy `custom_components/parasite` into your Home Assistant `config/custom_components/` directory and restart Home Assistant.
+### Manual
 
-## API endpoints
+Copy the `custom_components/parasite` folder into your Home Assistant configuration directory:
 
-The integration uses the public endpoints below:
+```text
+config/custom_components/parasite
+```
+
+Restart Home Assistant after copying the files.
+
+## Configuration
+
+1. Go to **Settings** → **Devices & services**.
+2. Select **Add integration**.
+3. Search for **Parasite Pool**.
+4. Enter the Bitcoin address used by your Parasite Pool miners.
+
+No API key is required.
+
+## Notes
+
+- Personal statistics depend on what Parasite Pool exposes for the configured address.
+- New, private, or unranked addresses can show unavailable personal values. Pool-wide sensors continue to update normally.
+- Large values are displayed in a compact form (for example `63.30 T`); their original numeric values remain available as sensor attributes.
+
+## Data source
+
+This integration uses the public Parasite Pool API:
 
 - `GET /api/pool-stats`
 - `GET /api/user/{bitcoin_address}`
 - `GET /api/account/{bitcoin_address}`
 - `GET /api/leaderboard?type=combined&limit=100`
 
-No API token is needed.
+Parasite Pool is an independent project. This integration is community-maintained and is not affiliated with or endorsed by Parasite Pool.
 
+## Contributing
+
+Issues and pull requests are welcome. Please include the Home Assistant version, integration version, and relevant log output when reporting a problem.
