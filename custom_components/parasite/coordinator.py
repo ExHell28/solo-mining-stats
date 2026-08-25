@@ -68,6 +68,26 @@ def parse_uptime_seconds(value: Any) -> int | None:
     return sum(int(amount) * factors[unit] for amount, unit in parts)
 
 
+def format_compact_number(value: Any) -> str | None:
+    """Format large difficulty/work values for a compact dashboard state."""
+    numeric = _as_number(value)
+    if numeric is None:
+        return None
+    for divisor, suffix in (
+        (1e24, "Y"),
+        (1e21, "Z"),
+        (1e18, "E"),
+        (1e15, "P"),
+        (1e12, "T"),
+        (1e9, "B"),
+        (1e6, "M"),
+        (1e3, "K"),
+    ):
+        if abs(numeric) >= divisor:
+            return f"{numeric / divisor:.2f} {suffix}"
+    return f"{numeric:.0f}"
+
+
 class ParasiteDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
     """Fetch and normalize public Parasite Pool API data."""
 
@@ -136,15 +156,20 @@ class ParasiteDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             if isinstance(account_data, Mapping)
             else None
         )
+        personal_best_difficulty = parse_difficulty(user.get("bestDifficulty"))
+        pool_best_difficulty = parse_difficulty(pool.get("highestDifficulty"))
         return {
             "personal_hashrate_th": (personal_hashrate / 1e12) if personal_hashrate is not None else None,
-            "personal_best_difficulty": parse_difficulty(user.get("bestDifficulty")),
-            "total_work": total_work,
+            "personal_best_difficulty": format_compact_number(personal_best_difficulty),
+            "personal_best_difficulty_raw": personal_best_difficulty,
+            "total_work": format_compact_number(total_work),
+            "total_work_raw": total_work,
             "worker_count": _as_number(user.get("workers")),
             "uptime_seconds": parse_uptime_seconds(user.get("uptime")),
             "rank": rank,
             "pool_hashrate_ph": (_as_number(pool.get("hashrate")) or 0) / 1e15,
-            "pool_best_difficulty": parse_difficulty(pool.get("highestDifficulty")),
+            "pool_best_difficulty": format_compact_number(pool_best_difficulty),
+            "pool_best_difficulty_raw": pool_best_difficulty,
             "raw_uptime": user.get("uptime"),
             "raw_pool_best_difficulty": pool.get("highestDifficulty"),
         }

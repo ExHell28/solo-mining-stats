@@ -79,9 +79,17 @@ class ParasiteSensor(CoordinatorEntity[ParasiteDataUpdateCoordinator], SensorEnt
     def extra_state_attributes(self) -> dict[str, Any]:
         """Expose human-readable API representations where useful."""
         attributes: dict[str, Any] = {"attribution": ATTRIBUTION}
-        if self.entity_description.key == "uptime":
+        if self.entity_description.key == "personal_best_difficulty":
+            attributes["raw_difficulty"] = self.coordinator.data.get(
+                "personal_best_difficulty_raw"
+            )
+        elif self.entity_description.key == "total_work":
+            attributes["raw_total_work"] = self.coordinator.data.get("total_work_raw")
+        elif self.entity_description.key == "uptime":
             attributes["api_value"] = self.coordinator.data.get("raw_uptime")
         elif self.entity_description.key == "pool_best_difficulty":
             attributes["api_value"] = self.coordinator.data.get("raw_pool_best_difficulty")
+            attributes["raw_difficulty"] = self.coordinator.data.get(
+                "pool_best_difficulty_raw"
+            )
         return attributes
-
