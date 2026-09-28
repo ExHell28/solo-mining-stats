@@ -10,16 +10,14 @@
       },
       "connection": {
         "title": "Mining-Adresse verbinden",
-        "description": "Für CKPool gib die öffentliche Basis-URL des Pools ein (zum Beispiel https://solo.ckpool.org).",
+        "description": "Gib die Bitcoin-Adresse ein, die deine Miner verwenden.",
         "data": {
-          "bitcoin_address": "Bitcoin-Adresse",
-          "ckpool_url": "CKPool-Basis-URL"
+          "bitcoin_address": "Bitcoin-Adresse"
         }
       }
     },
     "error": {
-      "invalid_address": "Gib eine gültige Bitcoin-Mainnet-Adresse ein.",
-      "invalid_url": "Gib eine gültige CKPool-URL inklusive https:// ein."
+      "invalid_address": "Gib eine gültige Bitcoin-Mainnet-Adresse ein."
     },
     "abort": {
       "already_configured": "Diese Bitcoin-Adresse ist bereits eingerichtet."

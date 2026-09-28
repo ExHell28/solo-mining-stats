@@ -10,16 +10,14 @@
       },
       "connection": {
         "title": "Connect mining address",
-        "description": "For CKPool, enter the public base URL of the pool (for example https://solo.ckpool.org).",
+        "description": "Enter the Bitcoin address used by your miners.",
         "data": {
-          "bitcoin_address": "Bitcoin address",
-          "ckpool_url": "CKPool base URL"
+          "bitcoin_address": "Bitcoin address"
         }
       }
     },
     "error": {
-      "invalid_address": "Enter a valid mainnet Bitcoin address.",
-      "invalid_url": "Enter a valid CKPool URL, including https://."
+      "invalid_address": "Enter a valid mainnet Bitcoin address."
     },
     "abort": {
       "already_configured": "This Bitcoin address is already configured."

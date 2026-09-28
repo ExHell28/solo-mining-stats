@@ -16,7 +16,9 @@ from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from .const import (
     ATTRIBUTION,
     CONF_BITCOIN_ADDRESS,
+    CONF_CKPOOL_URL,
     CONF_PROVIDER,
+    CKPOOL_URLS,
     DOMAIN,
     NAME,
     PROVIDER_NAMES,
@@ -79,8 +81,11 @@ class ParasiteSensor(CoordinatorEntity[ParasiteDataUpdateCoordinator], SensorEnt
             model="Public API",
             configuration_url=(
                 f"https://parasite.space/user/{address}"
-                if entry.data.get(CONF_PROVIDER) != "ckpool"
-                else None
+                if entry.data.get(CONF_PROVIDER) not in CKPOOL_URLS
+                else (
+                    f"{entry.data.get(CONF_CKPOOL_URL) or CKPOOL_URLS[entry.data[CONF_PROVIDER]]}"
+                    f"/users/{address}"
+                )
             ),
         )
 

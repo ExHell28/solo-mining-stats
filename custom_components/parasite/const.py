@@ -14,11 +14,16 @@ CONF_CKPOOL_URL = "ckpool_url"
 
 PROVIDER_PARASITE = "parasite"
 PROVIDER_CKPOOL = "ckpool"
-DEFAULT_CKPOOL_URL = "https://solo.ckpool.org"
+PROVIDER_CKPOOL_EU = "ckpool_eu"
+CKPOOL_URLS = {
+    PROVIDER_CKPOOL: "https://solo.ckpool.org",
+    PROVIDER_CKPOOL_EU: "https://eusolo.ckpool.org",
+}
 
 PROVIDER_NAMES = {
     PROVIDER_PARASITE: "Parasite Pool",
     PROVIDER_CKPOOL: "CKPool",
+    PROVIDER_CKPOOL_EU: "CKPool (EU)",
 }
 
 ATTRIBUTION = "Data provided by Parasite Pool"

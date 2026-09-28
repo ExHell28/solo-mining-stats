@@ -54,13 +54,12 @@ No API key is required.
 
 ### CKPool
 
-Choose **CKPool** during setup and enter the public base URL for the pool, for example:
+Choose one of the following pool types during setup; only the Bitcoin address is required:
 
-```text
-https://solo.ckpool.org
-```
+- **CKPool** — `solo.ckpool.org`
+- **CKPool (EU)** — `eusolo.ckpool.org`
 
-The integration supports both common CKPool endpoint layouts: `/users/{address}` and `/api/users/{address}`. CKPool supplies its own `hashrate1d` value, which is shown as **Hashrate 24h**. Some CKPool installations do not expose a rank or total-work value; those sensors remain unavailable rather than showing incorrect data.
+CKPool supplies its own `hashrate1d` value, which is shown as **Hashrate 24h**. Some CKPool installations do not expose a rank or total-work value; those sensors remain unavailable rather than showing incorrect data.
 
 ## Notes
 

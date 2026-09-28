@@ -21,6 +21,7 @@ from .const import (
     API_BASE_URL,
     DOMAIN,
     PROVIDER_CKPOOL,
+    PROVIDER_CKPOOL_EU,
     REQUEST_TIMEOUT,
     UPDATE_INTERVAL,
 )
@@ -174,7 +175,7 @@ class ParasiteDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     async def _async_update_data(self) -> dict[str, Any]:
         """Fetch pool data and the configured miner's public stats."""
-        if self.provider == PROVIDER_CKPOOL:
+        if self.provider in (PROVIDER_CKPOOL, PROVIDER_CKPOOL_EU):
             return await self._async_update_ckpool_data()
 
         pool, user, account, leaderboard = await asyncio.gather(

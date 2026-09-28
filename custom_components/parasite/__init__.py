@@ -10,6 +10,7 @@ from .const import (
     CONF_BITCOIN_ADDRESS,
     CONF_CKPOOL_URL,
     CONF_PROVIDER,
+    CKPOOL_URLS,
     PROVIDER_PARASITE,
 )
 from .coordinator import ParasiteDataUpdateCoordinator
@@ -23,7 +24,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         hass,
         entry.data[CONF_BITCOIN_ADDRESS],
         entry.data.get(CONF_PROVIDER, PROVIDER_PARASITE),
-        entry.data.get(CONF_CKPOOL_URL),
+        entry.data.get(CONF_CKPOOL_URL)
+        or CKPOOL_URLS.get(entry.data.get(CONF_PROVIDER)),
     )
     await coordinator.async_config_entry_first_refresh()
     entry.runtime_data = coordinator
