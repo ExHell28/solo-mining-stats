@@ -2,19 +2,27 @@
   "config": {
     "step": {
       "user": {
-        "title": "Connect Parasite Pool",
-        "description": "Enter the Bitcoin address used for your Parasite Pool miners.",
+        "title": "Connect a mining pool",
+        "description": "Choose Parasite Pool or CKPool.",
         "data": {
-          "bitcoin_address": "Bitcoin address"
+          "provider": "Pool type"
+        }
+      },
+      "connection": {
+        "title": "Connect mining address",
+        "description": "For CKPool, enter the public base URL of the pool (for example https://solo.ckpool.org).",
+        "data": {
+          "bitcoin_address": "Bitcoin address",
+          "ckpool_url": "CKPool base URL"
         }
       }
     },
     "error": {
-      "invalid_address": "Enter a valid mainnet Bitcoin address."
+      "invalid_address": "Enter a valid mainnet Bitcoin address.",
+      "invalid_url": "Enter a valid CKPool URL, including https://."
     },
     "abort": {
       "already_configured": "This Bitcoin address is already configured."
     }
   }
 }
-

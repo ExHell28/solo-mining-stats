@@ -13,7 +13,14 @@ from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import ATTRIBUTION, CONF_BITCOIN_ADDRESS, DOMAIN, NAME
+from .const import (
+    ATTRIBUTION,
+    CONF_BITCOIN_ADDRESS,
+    CONF_PROVIDER,
+    DOMAIN,
+    NAME,
+    PROVIDER_NAMES,
+)
 from .coordinator import ParasiteDataUpdateCoordinator
 
 
@@ -25,14 +32,15 @@ class ParasiteSensorDescription(SensorEntityDescription):
 
 
 SENSORS: tuple[ParasiteSensorDescription, ...] = (
-    ParasiteSensorDescription(key="personal_hashrate", name="Personal Hashrate", data_key="personal_hashrate_th", native_unit_of_measurement="TH/s", suggested_display_precision=2),
-    ParasiteSensorDescription(key="personal_best_difficulty", name="Personal Best Difficulty", data_key="personal_best_difficulty", icon="mdi:pickaxe"),
+    ParasiteSensorDescription(key="personal_hashrate", name="Aktuelle Hashrate", data_key="personal_hashrate_th", native_unit_of_measurement="TH/s", suggested_display_precision=2),
+    ParasiteSensorDescription(key="hashrate_24h", name="Hashrate 24h", data_key="hashrate_24h_th", native_unit_of_measurement="TH/s", suggested_display_precision=2, icon="mdi:chart-timeline-variant"),
+    ParasiteSensorDescription(key="personal_best_difficulty", name="Best Diff", data_key="personal_best_difficulty", icon="mdi:pickaxe"),
     ParasiteSensorDescription(key="total_work", name="Total Work", data_key="total_work", icon="mdi:chart-timeline-variant"),
-    ParasiteSensorDescription(key="worker_count", name="Workers", data_key="worker_count", icon="mdi:server-network"),
+    ParasiteSensorDescription(key="worker_count", name="Worker", data_key="worker_count", icon="mdi:server-network"),
     ParasiteSensorDescription(key="uptime", name="Uptime", data_key="uptime_seconds", device_class=SensorDeviceClass.DURATION, native_unit_of_measurement=UnitOfTime.SECONDS),
     ParasiteSensorDescription(key="rank", name="Rank", data_key="rank", icon="mdi:podium"),
     ParasiteSensorDescription(key="pool_hashrate", name="Pool Hashrate", data_key="pool_hashrate_ph", native_unit_of_measurement="PH/s", suggested_display_precision=2),
-    ParasiteSensorDescription(key="pool_best_difficulty", name="Pool Best Difficulty", data_key="pool_best_difficulty", icon="mdi:pickaxe"),
+    ParasiteSensorDescription(key="pool_best_difficulty", name="Pool Best Diff", data_key="pool_best_difficulty", icon="mdi:pickaxe"),
 )
 
 
@@ -50,7 +58,7 @@ class ParasiteSensor(CoordinatorEntity[ParasiteDataUpdateCoordinator], SensorEnt
     """A sensor backed by the Parasite Pool coordinator."""
 
     entity_description: ParasiteSensorDescription
-    _attr_has_entity_name = True
+    _attr_has_entity_name = False
 
     def __init__(
         self,
@@ -60,14 +68,20 @@ class ParasiteSensor(CoordinatorEntity[ParasiteDataUpdateCoordinator], SensorEnt
     ) -> None:
         super().__init__(coordinator)
         self.entity_description = description
+        self._attr_name = description.name
         self._attr_unique_id = f"{entry.entry_id}_{description.key}"
         address = entry.data[CONF_BITCOIN_ADDRESS]
+        provider_name = PROVIDER_NAMES.get(entry.data.get(CONF_PROVIDER), "Parasite Pool")
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, address)},
-            name=f"{NAME} ({address[:8]}…{address[-4:]})",
-            manufacturer="Parasite Pool",
+            name=f"{NAME} · {provider_name} ({address[:8]}…{address[-4:]})",
+            manufacturer=provider_name,
             model="Public API",
-            configuration_url=f"https://parasite.space/user/{address}",
+            configuration_url=(
+                f"https://parasite.space/user/{address}"
+                if entry.data.get(CONF_PROVIDER) != "ckpool"
+                else None
+            ),
         )
 
     @property

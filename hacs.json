@@ -1,6 +1,5 @@
 {
-  "name": "Parasite Pool",
+  "name": "Solo Mining Stats",
   "content_in_root": false,
   "homeassistant": "2024.6.0"
 }
-

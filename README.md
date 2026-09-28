@@ -1,12 +1,13 @@
-# Parasite Pool for Home Assistant
+# Solo Mining Stats for Home Assistant
 
-A HACS-compatible custom integration for monitoring public [Parasite Pool](https://parasite.space/) mining and pool statistics in Home Assistant.
+A HACS-compatible custom integration for monitoring solo-mining statistics in Home Assistant. It currently supports public [Parasite Pool](https://parasite.space/) and standard CKPool endpoints.
 
 The integration creates one device for each configured Bitcoin address and refreshes its data every 30 seconds.
 
 ## Features
 
 - Personal hashrate in TH/s
+- 24-hour average hashrate in TH/s
 - Personal best difficulty
 - Total contributed work
 - Active worker count
@@ -15,6 +16,7 @@ The integration creates one device for each configured Bitcoin address and refre
 - Pool hashrate in PH/s
 - Pool best difficulty
 - Friendly compact formatting for large difficulty and work values
+- Parasite Pool and standard public CKPool endpoint support
 
 ## Installation
 
@@ -49,6 +51,16 @@ Restart Home Assistant after copying the files.
 4. Enter the Bitcoin address used by your Parasite Pool miners.
 
 No API key is required.
+
+### CKPool
+
+Choose **CKPool** during setup and enter the public base URL for the pool, for example:
+
+```text
+https://solo.ckpool.org
+```
+
+The integration supports both common CKPool endpoint layouts: `/users/{address}` and `/api/users/{address}`. CKPool supplies its own `hashrate1d` value, which is shown as **Hashrate 24h**. Some CKPool installations do not expose a rank or total-work value; those sensors remain unavailable rather than showing incorrect data.
 
 ## Notes
 

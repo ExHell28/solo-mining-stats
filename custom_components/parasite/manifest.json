@@ -1,11 +1,11 @@
 {
   "domain": "parasite",
-  "name": "Parasite Pool",
+  "name": "Solo Mining Stats",
   "codeowners": [],
   "config_flow": true,
-  "documentation": "https://github.com/parasitepool/para",
+  "documentation": "https://github.com/ExHell28/parasite-home-assistant",
   "iot_class": "cloud_polling",
-  "issue_tracker": "https://github.com/parasitepool/para/issues",
+  "issue_tracker": "https://github.com/ExHell28/parasite-home-assistant/issues",
   "requirements": [],
-  "version": "0.1.5"
+  "version": "0.2.1"
 }
